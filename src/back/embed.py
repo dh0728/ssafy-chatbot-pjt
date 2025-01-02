@@ -8,6 +8,7 @@ from langchain_upstage import UpstageEmbeddings
 from pinecone import Pinecone, ServerlessSpec
 from langchain.docstore.document import Document
 from langchain_chroma import Chroma
+import pandas as pd
 
 
 load_dotenv()
@@ -20,6 +21,21 @@ pinecone_api_key = os.environ.get("PINECONE_API_KEY")
 pc = Pinecone(api_key=pinecone_api_key)
 index_name = "ai-project"
 pdf_path = "개인정보_보호법_법률_제19234호_20240315.pdf"
+csv_path = "250101_extracted_laws.csv"
+df = pd.read_csv(csv_path)
+
+# `Original Text` 열을 Document 객체로 변환
+# `Original Text`와 `Extracted Laws`를 포함한 Document 객체 생성
+csv_docs = [
+    Document(
+        page_content=row["Original Text"], 
+        metadata={
+            "extracted_laws": row["Extracted Laws"]
+        }
+    )
+    for _, row in df.iterrows()
+]
+
 
 # create new index
 if index_name not in pc.list_indexes().names():
@@ -51,8 +67,37 @@ splits = text_splitter.split_documents(docs)
 print("Splits:", len(splits))
 
 
+
+# CSV 데이터를 청크로 분할
+csv_splits = text_splitter.split_documents(csv_docs)
+print(f"CSV Splits: {len(csv_splits)}")
+
+# Step 3: 청크 병합
+splits = splits + csv_splits
+
+
+# 데이터 정리
+
+## NaN 값제거
+cleaned_splits = [
+    doc for doc in splits if doc.page_content and not any(
+        pd.isna(value) for value in doc.metadata.values()
+    )
+]
+
+# 텍스트 인코딩 정리
+def clean_text(text):
+    try:
+        return text.encode("utf-8").decode("utf-8")
+    except UnicodeDecodeError:
+        return text.encode("utf-8", "ignore").decode("utf-8")
+
+for doc in cleaned_splits:
+    doc.page_content = clean_text(doc.page_content)
+
+
 PineconeVectorStore.from_documents(
-    splits, embedding_upstage, index_name=index_name
+    cleaned_splits, embedding_upstage, index_name=index_name
 )
 
 # Chroma 활용하여 vectorstore 만들기
