@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar (optional) */
+.chat-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+.chat-scroll {
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+/* Additional custom styles if needed */
+
+.user-message {
+  justify-content: flex-end;  /* 유저 메시지는 오른쪽 */
+}
+
+.assistant-message {
+  justify-content: flex-start;  /* 챗봇 메시지는 왼쪽 */
+}
+
+.button-form {
+  @apply px-8 py-4 w-full rounded-md bg-amber-200 text-gray-900 hover:bg-amber-300 transition;
+}
+
+.button-form0 {
+  @apply px-8 py-4 w-full rounded-md bg-amber-100 text-gray-900 hover:bg-amber-300 transition;
+}

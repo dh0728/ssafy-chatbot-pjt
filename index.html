@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatGPT-like App</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+</head>
+
+<body class="h-screen flex flex-col bg-gray-100">
+    
+    <!-- Header -->
+    <header
+        class="p-4 bg-gradient-to-r from-amber-900 via-amber-500 to-amber-100 text-white flex items-center justify-between">
+        <h1 class="text-xl font-semibold">Lawtox Chat</h1>
+        <span class="text-amber-900 opacity-90">개인정보보호법 준수를 위한 나의 AI 비서</span>
+    </header>
+
+    <!-- Main chat area -->
+    
+    
+    <main id="chat-container" class="flex-1 overflow-y-auto p-4 chat-scroll">
+        <!-- Messages will go here -->
+        <div class="flex flex-col items-center bg-gray-200 p-4 rounded-lg space-y-2 mb-2">
+            <!-- Profile Picture -->
+            <img src="./law.png" alt="lawtox image" class="w-20 h-20 square-full mx-auto">
+            <!-- Message Content -->
+            <div class="text-center space-y-1">
+                <h1 class="text-lg font-semibold">로톡스입니다!</h1>
+                <h2 class="text-sm text-gray-700">개인정보보호법 위반에 대한 걱정은 저에게 맡기세요.</h2>
+            </div>
+            <div class="space-y-3">
+                <button type="submit" class="button-form">
+                    개인정보 보관 기간 관련 문의
+                </button>
+                <button type="submit" class="button-form">
+                    수집 가능한 개인정보의 범위 관련 문의
+                </button>
+                <button type="submit" class="button-form">
+                    개인정보보호법 항목별 위반 시 처벌 문의
+                </button>
+                <button type="submit" class="button-form0">
+                    직접 질문하기
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Input area -->
+    <footer class="border-t border-gray-300 bg-white p-4">
+        <form id="message-form" class="flex items-center space-x-2">
+            <input type="text" id="user-input"
+                class="flex-1 border border-gray-300 rounded-md p-2 outline-none focus:border-blue-500"
+                placeholder="Type your message..." required />
+            <button type="submit" class="bg-amber-400 text-white px-4 py-2 rounded-md hover:bg-amber-600 transition">
+                Send
+            </button>
+        </form>
+    </footer>
+
+    <script type="module" src="./src/app.js"></script>
+</body>
+
+</html> 
