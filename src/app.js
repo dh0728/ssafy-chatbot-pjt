@@ -167,7 +167,7 @@ function scrollToBottom() {
 
 async function getAssistantResponse(userMessage) {
   const mode = 'naive';
-  console.log(mode)
+  console.log(`mode : `, mode)
   let url;
   let payload;
 
@@ -181,12 +181,10 @@ async function getAssistantResponse(userMessage) {
   } else {
     // Naive mode
     const allMsgs = await getAllMessages();
-    const messagesForAPI = [
-      { role: "system", content: "You are a helpful assistant." },
-      ...allMsgs.map((m) => ({ role: m.role, content: m.content })),
-      { role: "user", content: userMessage },
-    ];
-    payload = { messages: messagesForAPI };
+    // const messagesForAPI = [
+    //   { content: userMessage },
+    // ];
+    payload = { message: userMessage };
     url = `${BASE_URL}/chat`;
   }
 
@@ -197,7 +195,9 @@ async function getAssistantResponse(userMessage) {
     },
     body: JSON.stringify(payload),
   });
+  console.log(`payload : `, payload)
 
+  console.log(`response : `, response)
   if (!response.ok) {
     throw new Error("Network response was not ok");
   }
@@ -330,16 +330,33 @@ function createSubmitButton(formType) {
     let prompt = "";
 
     if (formType === "personalInfoAgency") {
-      prompt = '개인정보 보관 기관 관련 문의: 기관명: ${formData[0]}, 업무: ${formData[1]}, 보관 이유: ${formData[2]}';
+      prompt = `개인정보 보관 기관 관련 문의: 기관명: ${formData[0]}, 업무: ${formData[1]}, 보관 이유: ${formData[2]}`;
     } else if (formType === "infoCollectionRange") {
-      prompt = '수집 가능한 개인정보 범위 관련 문의: 상황: ${formData[0]}, 연령대: ${formData[1]}, 항목: ${formData[2]}';
+      prompt = `수집 가능한 개인정보 범위 관련 문의: 상황: ${formData[0]}, 연령대: ${formData[1]}, 항목: ${formData[2]}
+      답변 시에는 아래와 같이 답변해줘.
+
+1. 각 수집 항목별 적법 여부
+    - 적법 여부: 적법한 이유 또는 적법하지 않은 이유
+    - (적법한 경우) 주의 사항 / (적법하지 않은 경우)  대안
+2. 추가 고려 사항 (예: 14세 미만일 경우 법정 대리인 동의 필요, 보유 기간 등)
+3. 위 내용을 고려했을 때 적법한 수집 항목
+예)
+수집 항목 (수정 예시):
+전화 번호 (법정 대리인의 연락처 포함)
+아동 이름
+법정 대리인의 이름과 동의서
+
+수집 방법:
+법정 대리인의 동의 절차 마련
+법정 대리인의 동의 확인을 위해 인증 시스템(예: 휴대폰 본인 인증, 전자 동의서)을 활용.
+4. 법적 근거와 참고 자료 : 위와 같이 판단한 이유에 대한 법령 및 규정에 대한 URL`;
     } else if (formType === "privacyLawViolations") {
-      prompt = '개인정보 보호법 위반 시 처벌 문의: 위반 항목: ${formData[0]}, 상황: ${formData[1]}, 대상: ${formData[2]}';
+      prompt = `개인정보 보호법 위반 시 처벌 문의: 위반 항목: ${formData[0]}, 상황: ${formData[1]}, 대상: ${formData[2]}`;
     } else if (formType === "askDirectly") {
-      prompt = '사용자 질문: ${formData[0]}';
+      prompt = `사용자 질문: ${formData[0]}`;
     }
 
-    chatContainer.appendChild(createMessageBubble(prompt, "user"));
+    chatContainer.appendChild(createMessageBubble("응답을 작성 중입니다.", "user"));
     await saveMessage("user", prompt);
 
     try {
