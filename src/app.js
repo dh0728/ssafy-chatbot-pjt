@@ -7,7 +7,7 @@ const apiSelector = document.getElementById("api-selector");
 const newChatBtn = document.getElementById("new-chat-btn");
 
 // 각 버튼 지정
-const buttonForm = document.querySelectorAll(".button-form");
+const buttonForm = document.querySelector(".button-form");
 const buttonForm0 = document.querySelector(".button-form0");
 
 const BASE_URL = process.env.API_ENDPOINT;
@@ -142,7 +142,8 @@ function scrollToBottom() {
 }
 
 async function getAssistantResponse(userMessage) {
-  const mode = apiSelector.value;
+  const mode = 'naive';
+  console.log(mode)
   let url;
   let payload;
 
