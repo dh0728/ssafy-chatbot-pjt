@@ -1,0 +1,21 @@
+service: ssafy-fastapi-lambda-service
+
+provider:
+  name: aws
+  runtime: python3.12
+  region: ap-northeast-2
+  lambdaHashingVersion: 20201221
+
+functions:
+  app:
+    handler: handler.handler
+    # Using Lambda Function URLs instead of API Gateway
+    url: true
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    # dockerizePip ensures dependencies are packaged in a compatible manner for Lambda.
