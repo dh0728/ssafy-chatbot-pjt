@@ -41,3 +41,7 @@
 .hide {
   display: none;
 }
+
+.ars-area {
+  /* @apply my-4 rounded-md */
+}

@@ -318,7 +318,7 @@ function showFormAndCollectData(formType) {
 
 function createSubmitButton(formType) {
   const button = document.createElement("button");
-  button.classList.add("mt-4", "bg-blue-600", "text-white", "px-4", "py-2", "rounded-md");
+  button.classList.add("mt-4", "bg-amber-600", "text-white", "px-4", "py-2", "rounded-md");
   button.textContent = "Submit";
   button.onclick = async () => {
     const formData = Array.from(chatContainer.querySelectorAll("input")).map(input => input.value.trim());
