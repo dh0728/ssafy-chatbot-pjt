@@ -7,10 +7,34 @@ const apiSelector = document.getElementById("api-selector");
 const newChatBtn = document.getElementById("new-chat-btn");
 
 // 각 버튼 지정
-const buttonForm = document.querySelector(".button-form");
+const buttonForm = document.querySelectorAll(".button-form");
 const buttonForm0 = document.querySelector(".button-form0");
+const hideButton = document.querySelector(".hide-button")
+hideButton.textContent = "질문예시 숨기기"
 
 const BASE_URL = process.env.API_ENDPOINT;
+
+// 버튼 숨기기/드러내기
+const hideState = () => {
+  if (hideButton.textContent === "질문예시 숨기기") {
+    hideButton.textContent = "질문예시 보기"
+  } else {
+    hideButton.textContent = "질문예시 숨기기"
+  }
+}
+
+const hideAll = () => {
+  hideState() 
+  buttonForm.forEach((button) => {
+    button.classList.toggle("hide")
+  })
+  buttonForm0.classList.toggle("hide")
+}
+
+hideButton.addEventListener("click", async (e) => {
+  e.preventDefault()
+  hideAll()
+})
 
 let db;
 
@@ -334,7 +358,19 @@ function createSubmitButton(formType) {
   return button;
 }
 
-personalInfoAgencyBtn.addEventListener("click", () => showFormAndCollectData("personalInfoAgency"));
-infoCollectionRangeBtn.addEventListener("click", () => showFormAndCollectData("infoCollectionRange"));
-privacyLawViolationsBtn.addEventListener("click", () => showFormAndCollectData("privacyLawViolations"));
-askDirectlyBtn.addEventListener("click", () => showFormAndCollectData("askDirectly"));
+personalInfoAgencyBtn.addEventListener("click", () => {
+  hideAll()
+  showFormAndCollectData("personalInfoAgency")
+})
+infoCollectionRangeBtn.addEventListener("click", () => {
+  hideAll()
+  showFormAndCollectData("infoCollectionRange")
+});
+privacyLawViolationsBtn.addEventListener("click", () => {
+  hideAll()
+  showFormAndCollectData("privacyLawViolations")
+});
+askDirectlyBtn.addEventListener("click", () => {
+  hideAll()
+  showFormAndCollectData("askDirectly")
+});

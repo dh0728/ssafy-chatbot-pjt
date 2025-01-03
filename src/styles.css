@@ -37,3 +37,7 @@
 .button-form0 {
   @apply px-8 py-4 w-full rounded-md bg-amber-100 text-gray-900 hover:bg-amber-300 transition;
 }
+
+.hide {
+  display: none;
+}
