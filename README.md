@@ -41,10 +41,10 @@
 
   - 질문
 
-    ![alt text](image.png)
+    ![alt text](backend_a.png)
 
   - 응답
 
-    ![alt text](image-1.png)
+    ![alt text](backend_b.png)
 
 ### FrontEnd
